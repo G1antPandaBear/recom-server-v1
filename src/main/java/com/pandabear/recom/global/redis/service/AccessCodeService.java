@@ -1,30 +1,32 @@
 package com.pandabear.recom.global.redis.service;
 
-import com.pandabear.recom.global.exception.BusinessException;
+import com.pandabear.recom.domain.document.ro.DocumentIdRO;
 import com.pandabear.recom.global.redis.entity.DocAccessCode;
 import com.pandabear.recom.global.redis.repository.DocAccessCodeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class AccessCodeService {
 
     private final DocAccessCodeRepository docAccessCodeRepository;
 
-    public DocAccessCode findById(String id) {
-        DocAccessCode docAccessCode = docAccessCodeRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND, "문서 코드를 찾을 수 없습니다."));
-        return docAccessCode;
+    @Transactional(readOnly = true)
+    protected DocAccessCode findById(String id) {
+        return docAccessCodeRepository.findById(id)
+                .orElseThrow(DocAccessCode.NotExistedException::new);
     }
 
+    public DocumentIdRO findByKey(String key) {
+        return new DocumentIdRO(findById(key).getDocumentId());
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public DocAccessCode create(long documentId) {
         DocAccessCode docAccessCode = new DocAccessCode(null, documentId);
         return docAccessCodeRepository.save(docAccessCode);
     }
-
 }
