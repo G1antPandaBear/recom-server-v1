@@ -24,6 +24,7 @@ public class DocumentService {
     private final AccessCodeService accessCodeService;
     private final FileUtil fileUtil;
 
+    @Transactional(readOnly = true)
     public DocumentRo findByCode(String code) {
         long documentId = accessCodeService.findByKey(code).getDocumentId();
         Document document = documentRepository.findById(documentId)
@@ -33,7 +34,7 @@ public class DocumentService {
     }
 
     public DocumentRo create(String content, MultipartFile file) {
-        Document document = new Document(null, content, file.getOriginalFilename());
+        Document document = new Document(null, content, null);
 
         try {
             saveFile(document, file);
@@ -58,7 +59,7 @@ public class DocumentService {
         return new DocumentRo(code, content, document.getRecordFileName());
     }
 
-    private void saveFile(Document document, MultipartFile file) throws IOException {
+    protected void saveFile(Document document, MultipartFile file) throws IOException {
         fileUtil.parseFileInfo(document, file);
     }
 }
