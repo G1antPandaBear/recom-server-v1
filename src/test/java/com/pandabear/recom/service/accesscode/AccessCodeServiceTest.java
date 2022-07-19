@@ -42,7 +42,8 @@ public class AccessCodeServiceTest {
                 .thenThrow(new DocAccessCode.NotExistedException());
 
         // then
-        assertThrows(DocAccessCode.NotExistedException.class, () -> accessCodeService.findByKey(anyString()));
+        assertThrows(DocAccessCode.NotExistedException.class,
+                () -> accessCodeService.findByKey(anyString()));
     }
 
     @DisplayName("문서 아이디 키 값으로 찾기 성공")
