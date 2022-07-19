@@ -19,10 +19,10 @@ public class DocumentRepoTest {
     @Autowired
     private DocumentRepository documentRepository;
 
-    private String randomString(int limit) {
+    private String randomString() {
         return new Random().ints(48, 123)
                 .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >=97))
-                .limit(limit)
+                .limit(1024)
                 .collect(
                         StringBuilder::new,
                         StringBuilder::appendCodePoint,
@@ -34,16 +34,15 @@ public class DocumentRepoTest {
     @Test
     void saveDocument() {
         // given
-        String code = randomString(255);
-        String content = randomString(1024);
-        Document document = new Document(code, content);
+        String content = randomString();
+        Document document = new Document(1L, content);
     
         // when
         documentRepository.save(document);
         
         // then
         assertThat(document).isNotNull();
-        assertThat(document.getId()).isEqualTo(code);
+        assertThat(document.getId()).isEqualTo(1L);
         assertThat(document.getContent()).isEqualTo(content);
     }
     
@@ -51,16 +50,15 @@ public class DocumentRepoTest {
     @Test
     void findDocument() {
         // given
-        String code = randomString(255);
-        Document document = new Document(code, randomString(1024));
+        Document document = new Document(null, randomString());
         documentRepository.save(document);
     
         // when
-        Document findDocument = documentRepository.findById(code)
+        Document findDocument = documentRepository.findById(1L)
                 .orElseThrow();
         
         // then
         assertThat(findDocument).isNotNull();
-        assertThat(findDocument.getId()).isEqualTo(code);
+        assertThat(findDocument.getId()).isEqualTo(1L);
     }
 }
