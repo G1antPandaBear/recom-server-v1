@@ -2,13 +2,12 @@ package com.pandabear.recom.jpa;
 
 import com.pandabear.recom.domain.document.entity.Document;
 import com.pandabear.recom.domain.document.repository.DocumentRepository;
+import com.pandabear.recom.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
-
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,22 +18,11 @@ public class DocumentRepoTest {
     @Autowired
     private DocumentRepository documentRepository;
 
-    private String randomString() {
-        return new Random().ints(48, 123)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >=97))
-                .limit(1024)
-                .collect(
-                        StringBuilder::new,
-                        StringBuilder::appendCodePoint,
-                        StringBuilder::append
-                ).toString();
-    }
-
     @DisplayName("문서 저장 테스트")
     @Test
     void saveDocument() {
         // given
-        String content = randomString();
+        String content = TestUtil.randomString(1024);
         Document document = new Document(1L, content, null);
     
         // when
@@ -50,7 +38,7 @@ public class DocumentRepoTest {
     @Test
     void findDocument() {
         // given
-        Document document = new Document(null, randomString(), null);
+        Document document = new Document(null, TestUtil.randomString(1024), null);
         documentRepository.save(document);
     
         // when
