@@ -3,8 +3,8 @@ package com.pandabear.recom.domain.document.ro;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class DocumentRo {
 
     private String code;
