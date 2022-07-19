@@ -1,24 +1,31 @@
 package com.pandabear.recom.global.util;
 
 import com.pandabear.recom.domain.document.entity.Document;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public interface FileUtil {
 
-    void parseFileInfo(Document document, MultipartFile multipartFile)
-            throws IOException;
-
-//    static void addFile(Document document, String fileName) {
-//        document.addRecordFile(fileName);
-//    }
+    void parseFileInfo(Document document) throws IOException;
 
     static void createDir(File file) {
         if (!file.exists()) {
             file.mkdirs();
         }
+    }
+
+    default SimpleDateFormat simpleDateFormat() {
+        return new SimpleDateFormat("yyyyMMdd");
+    }
+
+    static String getAbsolutePath() {
+        return new File("").getAbsolutePath() + "\\";
+    }
+
+    static String getPath(String path, String fileName) {
+        return getAbsolutePath() + path + "/" + fileName;
     }
 
     static String randomName(String contentType) {

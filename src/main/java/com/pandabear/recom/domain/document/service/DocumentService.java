@@ -17,20 +17,20 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private final AccessCodeService accessCodeService;
 
+    @Transactional(readOnly = true)
     public DocumentRo findByCode(String code) {
         long documentId = accessCodeService.findByKey(code).getDocumentId();
+        System.out.println(documentId);
         Document document = documentRepository.findById(documentId)
                 .orElseThrow(Document.NotExistedException::new);
-
+        System.out.println(document.getContent());
         return new DocumentRo(code, document.getContent());
     }
 
     public DocumentRo create(String content) {
         Document document = new Document(null, content);
-
         documentRepository.save(document);
         DocAccessCode createdDocAccessCode = accessCodeService.create(document.getId());
-
         return new DocumentRo(createdDocAccessCode.getId(), content);
     }
 

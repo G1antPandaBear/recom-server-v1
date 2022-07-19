@@ -46,16 +46,16 @@ public class DocumentServiceTest {
                 () -> documentService.findByCode(anyString()));
     }
 
-    @DisplayName("코드로 문서 조회 성공")
-    @Test
-    void findByCodeSuccess() {
-        // given
-        Document document = new Document(1L, null, null);
-
-        // when
-
-
-        // then
-
-    }
+//    @DisplayName("코드로 문서 조회 성공")
+//    @Test
+//    void findByCodeSuccess() {
+//        // given
+//        Document document = new Document(1L, null, null);
+//
+//        // when
+//
+//
+//        // then
+//
+//    }
 }
