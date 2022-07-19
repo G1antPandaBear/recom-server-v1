@@ -1,11 +1,10 @@
 package com.pandabear.recom.domain.document.controller;
 
 import com.pandabear.recom.domain.document.dto.ContentDto;
-import com.pandabear.recom.domain.document.ro.DocumentRo;
+import com.pandabear.recom.domain.document.ro.ContentRO;
+import com.pandabear.recom.domain.document.ro.DocumentRO;
 import com.pandabear.recom.domain.document.service.DocumentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,25 +20,21 @@ public class DocumentController {
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public DocumentRo create(@RequestBody ContentDto contentDto) {
+    public DocumentRO create(@RequestBody ContentDto contentDto) {
         return documentService.create(contentDto.getContent());
     }
 
     @GetMapping("/{code}")
-    @Cacheable(value = "codeCaching", key = "#code")
     public String getByCode(Model model, @PathVariable String code) {
-        DocumentRo documentRo = documentService.findByCode(code);
-        model.addAttribute("content", documentRo.getContent());
-        model.addAttribute("code", documentRo.getCode());
+        ContentRO contentRO = documentService.findByCode(code);
+        model.addAttribute("contents", contentRO.getContents());
         return "document";
     }
 
     @PatchMapping("/{code}")
-    @CachePut(value = "codeCaching", key = "#code")
     public String updateByCode(Model model, @PathVariable String code, @RequestBody ContentDto contentDto) {
-        DocumentRo documentRo = documentService.update(code, contentDto.getContent());
-        model.addAttribute("code", documentRo.getCode());
-        model.addAttribute("content", documentRo.getContent());
+        ContentRO contentRO = documentService.update(code, contentDto.getContent());
+        model.addAttribute("contents", contentRO.getContents());
         return "document";
     }
 }
