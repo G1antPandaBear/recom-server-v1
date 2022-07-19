@@ -23,7 +23,7 @@ public class DocumentRepoTest {
     void saveDocument() {
         // given
         String content = TestUtil.randomString(1024);
-        Document document = new Document(1L, content, null);
+        Document document = new Document(1L, content);
     
         // when
         documentRepository.save(document);
@@ -38,7 +38,7 @@ public class DocumentRepoTest {
     @Test
     void findDocument() {
         // given
-        Document document = new Document(null, TestUtil.randomString(1024), null);
+        Document document = new Document(null, TestUtil.randomString(1024));
         documentRepository.save(document);
     
         // when

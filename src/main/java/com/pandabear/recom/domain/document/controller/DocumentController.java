@@ -1,15 +1,14 @@
 package com.pandabear.recom.domain.document.controller;
 
-import com.pandabear.recom.domain.document.ro.DocumentRo;
+import com.pandabear.recom.domain.document.dto.ContentDto;
+import com.pandabear.recom.domain.document.ro.ContentRO;
+import com.pandabear.recom.domain.document.ro.DocumentRO;
 import com.pandabear.recom.domain.document.service.DocumentService;
-import com.pandabear.recom.global.response.ResponseData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Controller
 @RequestMapping("/document")
@@ -18,26 +17,24 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseBody
-    public ResponseData<DocumentRo> create(@RequestBody String content) {
-        DocumentRo documentRo = documentService.create(content);
-        return new ResponseData<>(HttpStatus.CREATED, "문서 생성 성공", documentRo);
+    @ResponseStatus(HttpStatus.CREATED)
+    public DocumentRO create(@RequestBody ContentDto contentDto) {
+        return documentService.create(contentDto.getContent());
     }
 
     @GetMapping("/{code}")
     public String getByCode(Model model, @PathVariable String code) {
-        DocumentRo documentRo = documentService.findByCode(code);
-        model.addAttribute("content", documentRo.getContent());
-        model.addAttribute("code", documentRo.getCode());
+        ContentRO contentRO = documentService.findByCode(code);
+        model.addAttribute("contents", contentRO.getContents());
         return "document";
     }
 
     @PatchMapping("/{code}")
-    public String updateByCode(Model model, @PathVariable String code, @RequestBody String content) {
-        DocumentRo documentRo = documentService.update(code, content);
-        model.addAttribute("code", documentRo.getCode());
-        model.addAttribute("content", documentRo.getContent());
+    public String updateByCode(Model model, @PathVariable String code, @RequestBody ContentDto contentDto) {
+        ContentRO contentRO = documentService.update(code, contentDto.getContent());
+        model.addAttribute("contents", contentRO.getContents());
         return "document";
     }
 }
