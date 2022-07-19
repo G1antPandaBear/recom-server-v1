@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Component
-@Primary
 public class RecordFileUtil implements FileUtil {
 
     @Override

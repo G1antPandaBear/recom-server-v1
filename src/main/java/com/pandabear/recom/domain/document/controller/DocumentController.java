@@ -20,9 +20,8 @@ public class DocumentController {
 
     @PostMapping("/")
     @ResponseBody
-    public ResponseData<DocumentRo> create(MultipartHttpServletRequest request, @RequestBody String content) {
-        MultipartFile multipartFile = request.getFile("file");
-        DocumentRo documentRo = documentService.create(content, multipartFile);
+    public ResponseData<DocumentRo> create(@RequestBody String content) {
+        DocumentRo documentRo = documentService.create(content);
         return new ResponseData<>(HttpStatus.CREATED, "문서 생성 성공", documentRo);
     }
 
@@ -31,7 +30,6 @@ public class DocumentController {
         DocumentRo documentRo = documentService.findByCode(code);
         model.addAttribute("content", documentRo.getContent());
         model.addAttribute("code", documentRo.getCode());
-        model.addAttribute("file", documentRo.getRecordFileName());
         return "document";
     }
 
@@ -40,7 +38,6 @@ public class DocumentController {
         DocumentRo documentRo = documentService.update(code, content);
         model.addAttribute("code", documentRo.getCode());
         model.addAttribute("content", documentRo.getContent());
-        model.addAttribute("file", documentRo.getRecordFileName());
         return "document";
     }
 }

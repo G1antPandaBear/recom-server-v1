@@ -11,9 +11,9 @@ public interface FileUtil {
     void parseFileInfo(Document document, MultipartFile multipartFile)
             throws IOException;
 
-    static void addFile(Document document, String fileName) {
-        document.addRecordFile(fileName);
-    }
+//    static void addFile(Document document, String fileName) {
+//        document.addRecordFile(fileName);
+//    }
 
     static void createDir(File file) {
         if (!file.exists()) {
