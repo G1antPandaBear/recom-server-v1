@@ -1,7 +1,7 @@
 package com.pandabear.recom.global.util;
 
 import com.pandabear.recom.domain.document.entity.Document;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-@Primary
+@Qualifier("recordFileUtil")
 public class RecordFileUtil implements FileUtil {
 
     @Override
