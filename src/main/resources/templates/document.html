@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>나의 회의록</title>
+    <style>
+        body {
+            margin: 0 20%;
+        }
+        h1 {
+            font-size: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid black;
+            margin-top: 0;
+        }
+    </style>
 </head>
 <body>
+<p>by Recom 🎙</p>
+    <h1>회의록</h1>
     <table>
         <tr>
             <td></td>
         </tr>
         <tr th:each="content: ${contents}">
-            <td th:utext="${content.isBold() == true ? '<b>' + content.getContent() + '</b>' : content.getContent()}"></td>
+            <td th:utext="${content.isBold() == true ? '<b>' + content.getContent() + '</b>' : content.getContent()}">콘텐츠입니다.</td>
         </tr>
     </table>
 </body>
