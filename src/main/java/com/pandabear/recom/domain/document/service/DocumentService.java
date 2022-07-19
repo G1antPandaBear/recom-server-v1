@@ -25,9 +25,9 @@ public class DocumentService {
     private final FileUtil fileUtil;
 
     public DocumentRo findByCode(String code) {
-        DocAccessCode docAccessCode = accessCodeService.findById(code);
-        Document document = documentRepository.findById(docAccessCode.getDocumentId())
-                .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND, "문서를 찾을 수 없습니다."));
+        long documentId = accessCodeService.findByKey(code).getDocumentId();
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(Document.NotExistedException::new);
 
         return new DocumentRo(code, document.getContent(), document.getRecordFileName());
     }
@@ -45,6 +45,17 @@ public class DocumentService {
         DocAccessCode createdDocAccessCode = accessCodeService.create(document.getId());
 
         return new DocumentRo(createdDocAccessCode.getId(), content, document.getRecordFileName());
+    }
+
+    public DocumentRo update(String code, String content) {
+        long documentId = accessCodeService.findByKey(code).getDocumentId();
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(Document.NotExistedException::new);
+
+        document.updateContent(content);
+        documentRepository.save(document);
+
+        return new DocumentRo(code, content, document.getRecordFileName());
     }
 
     private void saveFile(Document document, MultipartFile file) throws IOException {
