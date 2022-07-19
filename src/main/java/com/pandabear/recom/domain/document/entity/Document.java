@@ -21,12 +21,6 @@ public class Document {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    private String recordFileName;
-
-    public void addRecordFile(String recordFileName) {
-        this.recordFileName = recordFileName;
-    }
-
     public void updateContent(String content) {
         this.content = content;
     }

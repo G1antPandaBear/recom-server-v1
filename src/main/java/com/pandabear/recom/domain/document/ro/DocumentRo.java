@@ -9,5 +9,4 @@ public class DocumentRo {
 
     private String code;
     private String content;
-    private String recordFileName;
 }
