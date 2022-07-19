@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>나의 회의록</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td></td>
+        </tr>
+        <tr th:each="content: ${contents}">
+            <td th:utext="${content.isBold() == true ? '<b>' + content.getContent() + '</b>' : content.getContent()}"></td>
+        </tr>
+    </table>
+</body>
+</html>
