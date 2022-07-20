@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class ContentDto {
 
     private String content;
-    private String adddress;
+    private String address;
     private String title;
 
 }

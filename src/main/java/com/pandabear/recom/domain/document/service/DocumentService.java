@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -46,7 +47,7 @@ public class DocumentService {
     }
 
     public DocumentRO create(ContentDto dto) {
-        Document document = new Document(null, dto.getTitle(), dto.getContent(), dto.getAdddress(), null);
+        Document document = new Document(null, dto.getTitle(), dto.getContent(), dto.getAddress(), LocalDateTime.now());
         documentRepository.save(document);
         DocAccessCode createdDocAccessCode = accessCodeService.create(document.getId());
         return new DocumentRO(createdDocAccessCode.getId());
