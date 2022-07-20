@@ -10,14 +10,16 @@
         h1 {
             font-size: 50px;
             padding-bottom: 30px;
-            border-bottom: 1px solid black;
             margin-top: 0;
         }
     </style>
 </head>
 <body>
     <p>by Recom 🎙</p>
-    <h1>회의록</h1>
+    <h1 th:text="${title  + ' 회의록'}">무제</h1>
+    <p th:text="${address}">주소 없음</p>
+    <p th:text="${createdAt} + ' 생성됨'">생성일자 없음</p>
+    <hr>
     <table>
         <tr>
             <td></td>
