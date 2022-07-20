@@ -12,14 +12,14 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class DocxFileUtil implements FileUtil {
+public class MdFileUtil implements FileUtil {
 
     private final AppProperties appProperties;
     private final DocumentUtil documentUtil;
 
     @Override
     public String parseFileInfo(Document document) throws IOException {
-        String path = appProperties.getUploadUri() + "/out.docx";
+        String path = appProperties.getUploadUri() + "/out.md";
 
         try {
             WordprocessingMLPackage wordprocessingMLPackage
