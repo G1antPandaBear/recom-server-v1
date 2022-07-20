@@ -18,13 +18,10 @@
 <body>
     <p>by Recom 🎙</p>
     <h1>회의록</h1>
-    <table>
-        <tr>
-            <td></td>
-        </tr>
-        <tr th:each="content: ${contents}">
-            <td th:utext="${content.isBold() == true ? '<b>' + content.getContent() + '</b>' : content.getContent()}">콘텐츠입니다.</td>
-        </tr>
-    </table>
+    <form th:action="@{/document/{code}(code=${code})}" method="post">
+        <input type="hidden" name="code" th:value="${code}" required="required">
+        <textarea placeholder="내용을 입력해주세요" rows="10" name="content" th:text="${content}"></textarea>
+        <button type="submit">수정 완료</button>
+    </form>
 </body>
 </html>
