@@ -36,6 +36,7 @@ public class DocumentController {
         model.addAttribute("title", contentRO.getTitle());
         model.addAttribute("address", contentRO.getAddress());
         model.addAttribute("createdAt", contentRO.getCreatedAt());
+        model.addAttribute("code", code);
         return "document";
     }
 

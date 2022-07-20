@@ -29,7 +29,6 @@ public class Document {
     @Column(nullable = false)
     private String address;
 
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
