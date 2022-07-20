@@ -47,5 +47,8 @@
         <a th:href="@{/document/{code}/download?export-type=HWP(code=${code})}">HWP(한글 파일)로 Export</a><br>
         <a th:href="@{/document/{code}/download?export-type=MD(code=${code})}">MD(마크다운 파일)로 Export</a>
     </div>
+    <div>
+        <a th:href="@{/document/{code}/modify(code=${code})}">수정하기</a>
+    </div>
 </body>
 </html>

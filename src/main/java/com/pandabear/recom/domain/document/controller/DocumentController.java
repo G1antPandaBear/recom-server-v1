@@ -1,6 +1,7 @@
 package com.pandabear.recom.domain.document.controller;
 
 import com.pandabear.recom.domain.document.dto.ContentDto;
+import com.pandabear.recom.domain.document.ro.Content;
 import com.pandabear.recom.domain.document.ro.ContentRO;
 import com.pandabear.recom.domain.document.ro.DocumentRO;
 import com.pandabear.recom.domain.document.service.DocumentService;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -40,13 +42,28 @@ public class DocumentController {
         return "document";
     }
 
-    @PatchMapping("/{code}")
-    public String updateByCode(Model model, @PathVariable String code, @RequestBody ContentDto contentDto) {
-        ContentRO contentRO = documentService.update(code, contentDto.getContent());
+    @GetMapping("/{code}/modify")
+    public String modify(Model model, @PathVariable String code) {
+        ContentRO contentRO = documentService.findByCode(code);
+        model.addAttribute("code", code);
+        List<Content> contentList = contentRO.getContents();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Content con : contentList) {
+            stringBuilder.append(con.getContent());
+        }
+
+        model.addAttribute("content", stringBuilder.toString());
+        return "update";
+    }
+
+    @PostMapping("/{code}")
+    public String updateByCode(Model model, @PathVariable String code, @RequestParam String content) {
+        ContentRO contentRO = documentService.update(code, content);
         model.addAttribute("contents", contentRO.getContents());
         model.addAttribute("title", contentRO.getTitle());
         model.addAttribute("address", contentRO.getAddress());
         model.addAttribute("createdAt", contentRO.getCreatedAt());
+        model.addAttribute("code", code);
         return "document";
     }
 
