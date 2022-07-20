@@ -3,12 +3,13 @@ package com.pandabear.recom.global.util;
 import com.pandabear.recom.domain.document.entity.Document;
 import com.pandabear.recom.domain.document.ro.Content;
 import com.pandabear.recom.global.config.AppProperties;
+import kr.dogfoot.hwplib.object.HWPFile;
+import kr.dogfoot.hwplib.object.bodytext.Section;
+import kr.dogfoot.hwplib.object.bodytext.paragraph.Paragraph;
+import kr.dogfoot.hwplib.tool.blankfilemaker.BlankFileMaker;
+import kr.dogfoot.hwplib.writer.HWPWriter;
 import lombok.RequiredArgsConstructor;
-import org.docx4j.openpackaging.exceptions.Docx4JException;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,21 +19,23 @@ public class HwpFileUtil implements FileUtil {
     private final DocumentUtil documentUtil;
 
     @Override
-    public String parseFileInfo(Document document) throws IOException {
+    public String parseFileInfo(Document document) {
         String path = appProperties.getUploadUri() + "/out.hwp";
 
         try {
-            WordprocessingMLPackage wordprocessingMLPackage
-                    = WordprocessingMLPackage.createPackage();
+            HWPFile hwpFile = BlankFileMaker.make();
+            Section s = hwpFile.getBodyText().getSectionList()
+                    .get(0);
+            Paragraph paragraph = s.getParagraph(0);
             List<Content> contents = documentUtil.parseDocuments(document);
             for (Content content : contents) {
-                wordprocessingMLPackage.getMainDocumentPart()
-                        .addParagraphOfText(content.getContent());
+                paragraph.getText().addString(content.getContent() + " ");
             }
-            wordprocessingMLPackage.save(new File(path));
-        } catch (Docx4JException e) {
+            HWPWriter.toFile(hwpFile, path);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
         return path;
     }
 }
