@@ -10,5 +10,8 @@ import java.util.List;
 public class ContentRO {
 
     private List<Content> contents;
+    private String title;
+    private String createdAt;
+    private String address;
 
 }

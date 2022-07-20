@@ -21,13 +21,16 @@ public class DocumentController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public DocumentRO create(@RequestBody ContentDto contentDto) {
-        return documentService.create(contentDto.getContent());
+        return documentService.create(contentDto);
     }
 
     @GetMapping("/{code}")
     public String getByCode(Model model, @PathVariable String code) {
         ContentRO contentRO = documentService.findByCode(code);
         model.addAttribute("contents", contentRO.getContents());
+        model.addAttribute("title", contentRO.getTitle());
+        model.addAttribute("address", contentRO.getAddress());
+        model.addAttribute("createdAt", contentRO.getCreatedAt());
         return "document";
     }
 
@@ -35,6 +38,9 @@ public class DocumentController {
     public String updateByCode(Model model, @PathVariable String code, @RequestBody ContentDto contentDto) {
         ContentRO contentRO = documentService.update(code, contentDto.getContent());
         model.addAttribute("contents", contentRO.getContents());
+        model.addAttribute("title", contentRO.getTitle());
+        model.addAttribute("address", contentRO.getAddress());
+        model.addAttribute("createdAt", contentRO.getCreatedAt());
         return "document";
     }
 }
