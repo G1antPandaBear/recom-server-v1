@@ -4,12 +4,17 @@ import com.pandabear.recom.domain.document.dto.ContentDto;
 import com.pandabear.recom.domain.document.ro.ContentRO;
 import com.pandabear.recom.domain.document.ro.DocumentRO;
 import com.pandabear.recom.domain.document.service.DocumentService;
+import com.pandabear.recom.domain.document.type.ExportType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
+@Slf4j
 @Controller
 @RequestMapping("/document")
 @RequiredArgsConstructor
@@ -42,5 +47,13 @@ public class DocumentController {
         model.addAttribute("address", contentRO.getAddress());
         model.addAttribute("createdAt", contentRO.getCreatedAt());
         return "document";
+    }
+
+    @GetMapping("/{code}/download")
+    @ResponseBody
+    public void download(@PathVariable String code,
+                         @RequestParam(name = "export-type", defaultValue = "DOCX") ExportType exportType,
+                         HttpServletResponse response) {
+        documentService.download(code, exportType, response);
     }
 }
